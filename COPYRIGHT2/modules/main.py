@@ -141,7 +141,7 @@ async def delete_edited_messages(client, edited_message):
 
     # Define inline button
     button = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Updates", url="https://t.me/GAURAV_BOTS")]]
+        [[InlineKeyboardButton("Updates", url="https://t.me/Sparrow_Bots")]]
     )
     
     await client.send_message(

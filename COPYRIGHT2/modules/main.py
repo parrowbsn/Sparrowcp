@@ -50,7 +50,7 @@ gd_buttons = [
         [
             InlineKeyboardButton("ᴏᴡɴᴇʀ", user_id=OWNER_ID),
             InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/Sparrow_Bots"),
-            InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/Bakchod_colony"),
+            InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/Raven_legion"),
         ]
         ]
 
@@ -137,7 +137,7 @@ async def delete_edited_messages(client, edited_message):
     
     # Send a notification message with an inline button
     username = edited_message.from_user.username if edited_message.from_user else "Unknown User"
-    message_text = f"@{username} just edited their message, and I deleted it."
+    message_text = f"@{username} ᴊᴜsᴛ ᴇᴅɪᴛᴇᴅ ᴛʜᴇɪʀ ᴍᴇssᴀɢᴇ, ᴀɴᴅ I ᴅᴇʟᴇᴛᴇᴅ ɪᴛ 😌."
 
     # Define inline button
     button = InlineKeyboardMarkup(

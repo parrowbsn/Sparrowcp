@@ -132,8 +132,23 @@ async def handle_message(client, message):
 # -------------------------------------------------------------------------------------
 @app.on_edited_message(filters.group & ~filters.me)
 async def delete_edited_messages(client, edited_message):
+    # Delete the edited message
     await edited_message.delete()
+    
+    # Send a notification message with an inline button
+    username = edited_message.from_user.username if edited_message.from_user else "Unknown User"
+    message_text = f"@{username} just edited their message, and I deleted it."
 
+    # Define inline button
+    button = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("Updates", url="https://t.me/GAURAV_BOTS")]]
+    )
+    
+    await client.send_message(
+        edited_message.chat.id,
+        text=message_text,
+        reply_markup=button
+    )
 
 
 # ----------------------------------------------------------------------------------------------------

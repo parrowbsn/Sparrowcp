@@ -2,7 +2,7 @@ motor
 apscheduler
 psutil
 pymongo
-pyrogram==2.0.106
+pyrogram==2.0.130
 requests==2.31.0
 tgcrypto==1.2.5
 asyncio==3.4.3

@@ -1,8 +1,7 @@
 from pyrogram import Client, filters
-import os
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import asyncio
-from config import OWNER_ID, BOT_USERNAME
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from config import BOT_USERNAME
 from COPYRIGHT2 import COPYRIGHT2 as app
 
 # Expanded forbidden keywords
@@ -31,7 +30,7 @@ async def start(_, msg):
         [InlineKeyboardButton("ᴀᴅᴅ ᴍᴇ", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
         [
             InlineKeyboardButton("Uᴘᴅᴀᴛᴇs", url="https://t.me/Sparrow_Bots"),
-            InlineKeyboardButton("• Oᴡɴᴇʀ •", url="https://t.me/harshu_Raven")
+            InlineKeyboardButton("• Oᴡɴᴇʀ •", url="https://t.me/Sparrow_Bots")
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -49,28 +48,36 @@ async def handle_forbidden_keywords(client, message):
        any(keyword.lower() in (message.caption or "").lower() for keyword in FORBIDDEN_KEYWORDS):
         await message.delete()  # Silently delete the message
 
-# Auto-delete Media
-@app.on_message(filters.group & (filters.animation | filters.audio | filters.document | filters.photo | filters.sticker | filters.video))
-async def auto_delete_media(client, message):
+# Notify and Delete Media (Audio, Photos, Videos, Documents)
+@app.on_message(filters.group & (filters.audio | filters.photo | filters.video | filters.document))
+async def notify_and_delete_media(client, message):
+    user_mention = message.from_user.mention if message.from_user else "User"
     await message.reply_text(
-        "⚡ **Your media will be automatically deleted after 15 minutes.**",
+        f"⚡ **{user_mention}, your media will be automatically deleted after 15 minutes.**",
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("Uᴘᴅᴀᴛᴇs", url="https://t.me/Sparrow_Bots")]]
         ),
-        quote=False
+        quote=True
     )
-    await asyncio.sleep(900)  # 15 minutes
+    await asyncio.sleep(900)  # Wait 15 minutes
+    await message.delete()
+
+# Silently Delete Stickers and GIFs
+@app.on_message(filters.group & (filters.sticker | filters.animation))
+async def silent_delete_stickers_gifs(client, message):
+    await asyncio.sleep(600)  # Wait 10 minutes
     await message.delete()
 
 # Delete Edited Messages
 @app.on_edited_message(filters.group & ~filters.me)
 async def delete_edited_messages(client, edited_message):
+    user_mention = edited_message.from_user.mention if edited_message.from_user else "User"
     await edited_message.reply_text(
-        "⚠️ **Your edited message will be deleted after 5 minutes.**",
+        f"⚠️ **{user_mention}, your edited message will be deleted after 5 minutes.**",
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("Uᴘᴅᴀᴛᴇs", url="https://t.me/Sparrow_Bots")]]
         ),
         quote=False
     )
-    await asyncio.sleep(300)  # 5 minutes
+    await asyncio.sleep(300)  # Wait 5 minutes
     await edited_message.delete()
